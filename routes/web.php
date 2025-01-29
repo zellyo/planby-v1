@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
+use App\Models\Project;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -24,4 +26,29 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard', [
+            'projects' => Project::where('user_id', auth()->id())->get(),
+        ]);
+    })->name('dashboard');
+
+    // Projects
+    Route::resource('projects', ProjectController::class);
+
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+    Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+
+    Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])
+    ->name('projects.destroy');
+
+
+
+});
+
+require __DIR__ . '/auth.php';
