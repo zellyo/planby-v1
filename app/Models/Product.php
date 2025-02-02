@@ -4,21 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Product extends Model
 {
     protected $fillable = [
         'name',
+        'quantity',
+        'cost',
+        'selling_price',
         'description',
-        'user_id' // Ensure this is included
+        'image',
+        'project_id'
     ];
-    
+
     public function products()
     {
         return $this->hasMany(Product::class);
     }
 
-    public function tasks()
+    public function project()
     {
-        return $this->hasMany(Task::class);
+        return $this->belongsTo(Project::class);
     }
 }

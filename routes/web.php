@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProductController;
+
+
 use App\Models\Project;
 use Inertia\Inertia;
 
@@ -45,10 +49,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 
     Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])
-    ->name('projects.destroy');
+        ->name('projects.destroy');
+
+    Route::get('/projects/{project}/tasks', [TaskController::class, 'index'])
+        ->name('projects.tasks.index');
 
 
-
+    Route::prefix('projects/{project}')->group(function () {
+        // Products
+        Route::get('/products', [ProductController::class, 'index'])->name('projects.products.index');
+        Route::get('/products/create', [ProductController::class, 'create'])->name('projects.products.create');
+        Route::post('/products', [ProductController::class, 'store'])->name('projects.products.store');
+        Route::get('/products/{product}', [ProductController::class, 'show'])->name('projects.products.show');
+        Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('projects.products.destroy');
+    });
 });
 
 require __DIR__ . '/auth.php';
