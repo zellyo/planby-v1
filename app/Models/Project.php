@@ -11,7 +11,7 @@ class Project extends Model
         'description',
         'user_id' // Ensure this is included
     ];
-    
+
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -21,4 +21,9 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function orders()
+{
+    return $this->hasMany(Order::class);
+}
 }

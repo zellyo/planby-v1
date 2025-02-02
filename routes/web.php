@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 
 use App\Models\Project;
@@ -62,6 +63,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/products', [ProductController::class, 'store'])->name('projects.products.store');
         Route::get('/products/{product}', [ProductController::class, 'show'])->name('projects.products.show');
         Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('projects.products.destroy');
+    });
+
+    Route::prefix('projects/{project}/orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('projects.orders.index');
+        Route::get('/create', [OrderController::class, 'create'])->name('projects.orders.create');
+        Route::post('/', [OrderController::class, 'store'])->name('projects.orders.store');
+        Route::get('/{order}', [OrderController::class, 'show'])->name('projects.orders.show');
     });
 });
 

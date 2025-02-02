@@ -19,6 +19,7 @@ defineProps({
                 >
                     Overview
                 </Link>
+
                 <Link
                     :href="
                         route('projects.products.index', {
@@ -28,6 +29,15 @@ defineProps({
                     class="block py-2 px-4 hover:bg-gray-600 rounded"
                 >
                     Products
+                </Link>
+
+                <Link
+                    :href="
+                        route('projects.orders.index', { project: project.id })
+                    "
+                    class="block py-2 px-4 hover:bg-gray-600 rounded"
+                >
+                    Orders
                 </Link>
             </nav>
         </div>
